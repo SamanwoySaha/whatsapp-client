@@ -3,7 +3,7 @@ import './Chat.scss';
 
 const Chat = () => {
     return (
-        <div>
+        <div className="chat">
             <h1>this is chat</h1>
         </div>
     );

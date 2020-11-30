@@ -5,10 +5,11 @@ import Sidebar from './components/Sidebar/Sidebar';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <h1>this is app</h1>
-      <Sidebar></Sidebar>
-      <Chat></Chat>
+    <div className="app">
+      <div className="app-body">
+        <Sidebar></Sidebar>
+        <Chat></Chat>
+      </div>
     </div>
   );
 }
