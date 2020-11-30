@@ -81,7 +81,9 @@
             }
 
             button {
-                display: none;
+                outline-width: 0;
+                border: none;
+                cursor: pointer;
             }
         }
 

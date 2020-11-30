@@ -5,9 +5,19 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Pusher from 'pusher-js';
 import axios from './axios';
 import { Message } from './models/message.model';
+import Login from './components/Login/Login';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import NoMatch from './components/NoMatch/NoMatch';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+
 
 const App: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
+
   useEffect(() => {
     axios.get('/messages/sync')
       .then(res => setMessages(res.data))
@@ -29,13 +39,27 @@ const App: React.FC = () => {
     }
   }, [messages]);
 
-  console.log(messages);
-
   return (
     <div className="app">
       <div className="app-body">
-        <Sidebar></Sidebar>
-        <Chat messages={messages} ></Chat>
+        <Router>
+          <Switch>
+            <PrivateRoute exact path="/">
+              <Sidebar></Sidebar>
+              <Chat messages={messages} ></Chat>
+            </PrivateRoute>
+            <PrivateRoute path="/home">
+              <Sidebar></Sidebar>
+              <Chat messages={messages} ></Chat>
+            </PrivateRoute>
+            <Route path="/login">
+              <Login></Login>
+            </Route>
+            <Route path="*">
+              <NoMatch></NoMatch>
+            </Route>
+          </Switch>
+        </Router>
       </div>
     </div>
   );

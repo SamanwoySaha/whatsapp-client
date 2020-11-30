@@ -8,10 +8,12 @@ import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import SidebarChat from '../SidebarChat/SidebarChat';
 
 const Sidebar = () => {
+    const photo = `${sessionStorage.getItem('photo')}`;
+
     return (
         <div className='sidebar'>
             <div className="sidebar-header">
-                <Avatar />
+                <Avatar src={photo} />
                 <div className="sidebar-header-right">
                     <IconButton>
                         <DonutLargeIcon />
@@ -27,7 +29,7 @@ const Sidebar = () => {
             <div className="sidebar-search">
                 <div className="sidebar-search-container">
                     <SearchOutlinedIcon />
-                    <input type="text" placeholder="Search or start a new chat"/>
+                    <input type="text" placeholder="Search or start a new chat" />
                 </div>
             </div>
             <div className="sidebar-chats">

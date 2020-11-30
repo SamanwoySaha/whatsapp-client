@@ -8,7 +8,8 @@ import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import MicIcon from '@material-ui/icons/Mic';
 import { Message } from '../../models/message.model';
 import axios from '../../axios';
-
+import moment from 'moment';
+import SendIcon from '@material-ui/icons/Send';
 
 type Messages = {
     messages: Message[]
@@ -19,15 +20,16 @@ const Chat: React.FC<Messages> = (props) => {
 
     const sendMessageHandler = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (messageInput) {
 
-        await axios.post('/messages/new', {
-            message: messageInput,
-            name: "demo name",
-            timestamp: 'Just now!',
-            received: true,
-        });
+            await axios.post('/messages/new', {
+                message: messageInput,
+                name: `${localStorage.getItem('name')}`,
+                timestamp: `${new Date().toISOString()}`,
+            });
 
-        setMessageInput('');
+            setMessageInput('');
+        }
     }
 
     return (
@@ -52,11 +54,14 @@ const Chat: React.FC<Messages> = (props) => {
             </div>
             <div className="chat-body">
                 {props.messages.map(message => (
-                    <p className={`chat-message ${message.received && 'chat-receiver'}`}>
+                    <p className={`chat-message ${localStorage.getItem('name') === message.name && 'chat-receiver'}`}>
                         <span className="chat-name">{message.name}</span>
                         {message.message}
                         <span className="chat-timestamp">
-                            {message.timestamp}
+                            {moment().format("MMM Do YY") === moment(message.timestamp).format("MMM Do YY")
+                                ? moment(message.timestamp).format('LT')
+                                : moment(message.timestamp).format('lll')
+                            }
                         </span>
                     </p>
                 ))}
@@ -65,7 +70,7 @@ const Chat: React.FC<Messages> = (props) => {
                 <EmojiEmotionsIcon />
                 <form>
                     <input value={messageInput} onChange={e => setMessageInput(e.target.value)} placeholder="Type a message" type="text" />
-                    <button onClick={sendMessageHandler} type="submit">Send a message</button>
+                    <button onClick={sendMessageHandler} type="submit"><SendIcon /></button>
                 </form>
                 <MicIcon />
             </div>
