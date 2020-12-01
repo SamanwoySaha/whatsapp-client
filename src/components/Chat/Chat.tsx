@@ -20,11 +20,11 @@ const Chat: React.FC<Messages> = (props) => {
 
     const sendMessageHandler = async (e: React.FormEvent) => {
         e.preventDefault();
+        
         if (messageInput) {
-
             await axios.post('/messages/new', {
                 message: messageInput,
-                name: `${localStorage.getItem('name')}`,
+                name: `${sessionStorage.getItem('name')}`,
                 timestamp: `${new Date().toISOString()}`,
             });
 
@@ -54,7 +54,7 @@ const Chat: React.FC<Messages> = (props) => {
             </div>
             <div className="chat-body">
                 {props.messages.map(message => (
-                    <p className={`chat-message ${localStorage.getItem('name') === message.name && 'chat-receiver'}`}>
+                    <p className={`chat-message ${sessionStorage.getItem('name') === message.name && 'chat-receiver'}`}>
                         <span className="chat-name">{message.name}</span>
                         {message.message}
                         <span className="chat-timestamp">
